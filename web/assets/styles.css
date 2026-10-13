@@ -1,0 +1,450 @@
+/* ==========================================================================
+   From Surface Realism to Behavioral Validity — styles
+   Two parts:
+     1. the page shell (palette, reset, typography, hero, nav, footer);
+     2. the coded-corpus sheet browser (sticky jump bar, seven stacked group
+        tables, type-appropriate cell widgets, the G7 claim–evidence table,
+        pinned column definitions and the table tallies).
+   The palette below is the single source of colour for the whole site.
+   ========================================================================== */
+
+/* ==========================================================================
+   shell
+   Palette, reset, typography and the shell classes: hero / nav / sections /
+   panels / quotes / links / footer.
+   ========================================================================== */
+
+:root {
+  /* Brand palette (site-wide) — grey / deep blue, from the reference theme.
+     Accent text is blue-700 (#1D4ED8): it clears 4.5:1 on white and on the
+     #EFF6FF tint, and this page sets accent text at small sizes (field names,
+     links, column headers, tally labels). */
+  --brand-base: #F9FAFB;         /* page background, row hover */
+  --brand-band: #F3F4F6;         /* table head and tally band */
+  --brand-line: #E5E7EB;         /* every hairline */
+  --brand-tint: #EFF6FF;         /* chip fill, hero start, evidence quote */
+  --brand-tint-end: #ECFEFF;     /* hero gradient end */
+  --brand-edge: #BFDBFE;         /* tinted border */
+  --brand-accent: #1D4ED8;       /* links, current tab, field names, borders */
+  --brand-solid: #111827;        /* solid button / active pill fill */
+  --brand-header-ink: #4B5563;   /* table head and tally text */
+  --brand-ink: #111827;          /* body and heading text */
+
+  /* Status colours — deliberately kept outside the brand palette */
+  --yes: #15803d;
+  --no: #dc2626;
+  --na: #6b7280;
+
+  /* Supporting neutrals */
+  --ink: var(--brand-ink);
+  --ink-soft: #4b5563;
+  --muted: #6b7280;
+  --faint: #6b7280;
+  --line: var(--brand-line);
+  --paper: var(--brand-base);
+  --card: #ffffff;
+  --rose: #dc2626;
+  --radius: 14px;
+  --shadow: 0 1px 2px rgba(15, 23, 42, .05);
+  --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  /* Every in-page anchor clears the sticky jump bar (see §scroll anchors). */
+  scroll-padding-top: 128px;
+  scroll-padding-top: max(calc(var(--jumpbar-h, 0px) + 16px), 128px);
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.55;
+  -webkit-text-size-adjust: 100%;
+}
+
+code { font-family: var(--mono); font-size: .88em; }
+
+a { color: var(--brand-accent); }
+
+h2 { font-size: clamp(1.15rem, 1rem + .8vw, 1.4rem); font-weight: 800; letter-spacing: -.01em; }
+h3 { font-size: 1rem; font-weight: 700; }
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+.skip-link {
+  position: absolute; left: -999px; top: 0; z-index: 100;
+  background: #fff; color: var(--brand-accent); padding: 10px 16px; border-radius: 0 0 8px 0;
+}
+.skip-link:focus { left: 0; }
+
+/* hero */
+.hero {
+  background: linear-gradient(135deg, var(--brand-tint) 0%, var(--brand-tint-end) 100%);
+  color: var(--brand-ink);
+  padding: 56px 24px 46px;
+  text-align: center;
+}
+.hero .kicker {
+  font-size: .78rem; letter-spacing: .18em; text-transform: uppercase;
+  opacity: .85; margin-bottom: 12px;
+}
+.hero h1 {
+  font-size: clamp(1.5rem, 1.1rem + 2.2vw, 2.2rem);
+  font-weight: 800; line-height: 1.22; max-width: 1180px; margin: 0 auto 14px;
+  letter-spacing: -.01em;
+}
+.hero .sub {
+  max-width: 720px; margin: 0 auto; opacity: .93;
+  font-size: clamp(.9rem, .85rem + .3vw, 1rem);
+}
+.badges { margin-top: 24px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.badge {
+  background: #fff; color: var(--muted);
+  border: 1px solid var(--brand-line);
+  border-radius: 999px; padding: 6px 14px; font-size: .78rem; white-space: nowrap;
+}
+
+/* site nav */
+.site-nav {
+  position: sticky; top: 0; z-index: 40;
+  background: rgba(255, 255, 255, .95);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--brand-line);
+}
+.nav-inner {
+  max-width: 1180px; margin: 0 auto; padding: 0 16px;
+  display: flex; gap: 4px; overflow-x: auto; scrollbar-width: thin;
+}
+.nav-link {
+  display: block; white-space: nowrap; padding: 12px 12px 10px;
+  font-size: .82rem; font-weight: 600; color: var(--muted); text-decoration: none;
+  border-bottom: 2px solid transparent;
+}
+.nav-link:hover { color: var(--brand-accent); }
+.nav-link.active { color: var(--brand-accent); border-bottom-color: var(--brand-accent); }
+
+/* structure */
+.wrap { max-width: 1180px; margin: 0 auto; padding: 0 24px 72px; }
+
+.section { margin-top: 56px; scroll-margin-top: 64px; }
+
+.sec-head { display: flex; align-items: baseline; gap: 12px; margin-bottom: 6px; }
+.sec-num { font-size: .78rem; font-weight: 800; color: var(--brand-accent); letter-spacing: .14em; flex: none; }
+
+.lead { color: var(--muted); max-width: 900px; font-size: .93rem; margin-bottom: 20px; }
+
+.panel {
+  background: var(--card); border: 1px solid var(--brand-line); border-radius: var(--radius);
+  padding: 22px; box-shadow: var(--shadow);
+}
+.note { font-size: .8rem; color: var(--muted); margin-top: 14px; }
+
+/* horizontal bars */
+.bars { display: flex; flex-direction: column; gap: 9px; }
+.bar-row { display: grid; grid-template-columns: minmax(110px, 42%) 1fr auto; align-items: center; gap: 10px; }
+.bar-label { font-size: .8rem; color: var(--ink-soft); overflow-wrap: anywhere; }
+.bar-track { display: block; background: var(--brand-base); border-radius: 6px; height: 16px; overflow: hidden; }
+.bar-fill { display: block; height: 100%; border-radius: 6px; min-width: 3px; transition: width .5s ease; }
+.bar-value { font-size: .8rem; font-weight: 800; font-variant-numeric: tabular-nums; min-width: 34px; text-align: right; }
+.bar-value .bar-pct { font-weight: 500; color: var(--faint); font-size: .72rem; }
+.chart-sub { font-size: .76rem; color: var(--muted); margin-bottom: 12px; }
+.chart-note { font-size: .74rem; color: var(--muted); margin-top: 12px; border-top: 1px dashed var(--brand-line); padding-top: 8px; }
+
+/* funnel */
+.funnel-row { display: grid; grid-template-columns: minmax(150px, 1.15fr) 2fr auto; align-items: center; gap: 12px; margin: 10px 0; }
+.funnel-label { font-size: .82rem; }
+.funnel-bar {
+  height: 32px; border-radius: 8px; color: #fff; display: flex; align-items: center;
+  padding: 0 12px; font-weight: 800; font-size: .84rem; min-width: 44px; transition: width .5s ease;
+}
+.funnel-meta { font-size: .75rem; color: var(--muted); white-space: nowrap; }
+.funnel-meta b { color: var(--ink); }
+.funnel-drop { color: var(--rose); font-weight: 700; }
+.funnel-keep { color: var(--brand-accent); font-weight: 700; }
+
+/* arrow chain (practice -> stronger counterpart) */
+.chain { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 8px 0 14px; }
+.chain-step {
+  border: 1px solid var(--brand-line); border-radius: 10px; padding: 10px 14px;
+  display: flex; align-items: baseline; gap: 8px; background: #fff;
+}
+.chain-step .n { font-size: 1.15rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+.chain-step .l { font-size: .76rem; color: var(--muted); max-width: 190px; }
+.chain-step.a { border-left: 4px solid var(--brand-accent); }
+.chain-step.b { border-left: 4px solid var(--rose); }
+.chain-arrow { font-size: .74rem; color: var(--faint); white-space: nowrap; }
+.chain-gap { font-size: .74rem; font-weight: 700; color: var(--rose); }
+
+/* quotes */
+.quote-block { border-left: 4px solid var(--brand-accent); background: var(--brand-base); border-radius: 0 10px 10px 0; padding: 12px 16px; margin: 10px 0; }
+.quote-block.evidence { border-left-color: var(--brand-accent); background: #EFF6FF; }
+.quote-label { font-size: .68rem; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; color: var(--brand-accent); }
+.quote-block.evidence .quote-label { color: var(--brand-accent); }
+.quote-text { font-size: .88rem; font-style: italic; margin-top: 5px; }
+.quote-meta { font-size: .74rem; color: var(--muted); margin-top: 7px; }
+.claim-arrow { text-align: center; color: var(--faint); font-size: .8rem; margin: 2px 0; }
+.claim-foot { font-size: .74rem; color: var(--muted); margin-top: 12px; display: flex; gap: 14px; flex-wrap: wrap; }
+
+/* links */
+.page-link, .paper-link { color: var(--brand-accent); text-decoration: underline; text-underline-offset: 2px; }
+.page-link { font-weight: 600; }
+.paper-link { font-weight: 700; }
+.page-link:hover, .paper-link:hover { color: var(--brand-ink); }
+
+/* footer */
+.footer {
+  border-top: 1px solid var(--brand-line); background: #fff;
+  padding: 26px 24px; color: var(--muted); font-size: .78rem;
+}
+.footer p { max-width: 1000px; margin: 0 auto 8px; }
+.footer code { color: var(--ink-soft); }
+
+.fatal { max-width: 720px; margin: 60px auto; padding: 20px 24px; border: 1px solid var(--rose); border-radius: 12px; background: #fef2f2; color: #b91c1c; font-size: .9rem; }
+
+/* ==========================================================================
+   end shell
+   ========================================================================== */
+
+/* ==========================================================================
+   coded-corpus page — linear layout
+   Sticky jump bar, seven stacked group tables (52 rows each), per-table tally
+   rows, type-appropriate cell widgets and the G7 claim–evidence table.
+   ========================================================================== */
+
+.wrap { max-width: 1320px; }
+
+
+.legend {
+  font-size: .76rem; color: var(--muted); margin: 14px 0 4px;
+  max-width: 1100px; line-height: 1.75;
+}
+
+/* -------------------------------------------------------------- jump bar -- */
+
+.jumpbar {
+  position: sticky; top: 0; z-index: 60;
+  background: rgba(255, 255, 255, .97);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--brand-line);
+  box-shadow: 0 6px 18px rgba(15, 23, 42, .05);
+}
+.jb-inner {
+  max-width: 1320px; margin: 0 auto; padding: 8px 16px;
+  display: flex; align-items: center; gap: 8px 14px; flex-wrap: wrap;
+}
+.jb-links { display: flex; align-items: center; gap: 3px; flex-wrap: wrap; }
+.jump-link {
+  display: inline-block; white-space: nowrap; text-decoration: none;
+  font-size: .75rem; font-weight: 700; color: var(--muted);
+  border: 1px solid transparent; border-radius: 8px; padding: 5px 9px;
+}
+.jump-link:hover { color: var(--brand-accent); background: var(--brand-base); }
+.jump-link[aria-current="true"] { color: #fff; background: var(--brand-solid); border-color: var(--brand-solid); }
+.jump-link:focus-visible { outline: 2px solid var(--brand-accent); outline-offset: 2px; }
+
+/* --------------------------------------------------------- group sections -- */
+
+/* Anchor offset: the sticky jump bar (and, at the top of a table, the sticky
+   table head) must never cover a section heading. `max()` keeps a generous
+   floor even when --jumpbar-h has not been measured yet. This fixes G1 and
+   every other group anchor uniformly. */
+.group-section, section[id] {
+  scroll-margin-top: 128px;
+  scroll-margin-top: max(calc(var(--jumpbar-h, 0px) + 16px), 128px);
+}
+.group-section { margin-top: 48px; }
+.group-section .sec-head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 6px; }
+.sec-num { font-size: .78rem; font-weight: 800; color: var(--brand-accent); letter-spacing: .14em; flex: none; }
+.gcount { font-size: .78rem; font-weight: 600; color: var(--faint); letter-spacing: 0; }
+.lead { color: var(--muted); max-width: 1040px; font-size: .9rem; margin-bottom: 14px; }
+
+/* --------------------------------------------------------------- tables --- */
+
+.tablewrap {
+  overflow: auto; max-height: 78vh;
+  border: 1px solid var(--brand-line); border-radius: 11px; background: #fff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+}
+.sheet-table {
+  border-collapse: separate; border-spacing: 0;
+  /* Fixed layout + 100% width: the table can never grow wider than its
+     container, so no group table produces a horizontal scrollbar. Columns are
+     sized from the header row: # and Paper are explicit, the coded fields
+     share what is left equally. */
+  table-layout: fixed; width: 100%; min-width: 0; font-size: .74rem;
+}
+.sheet-table th, .sheet-table td {
+  padding: 4px 6px; border-bottom: 1px solid var(--brand-line);
+  vertical-align: top; text-align: left; overflow-wrap: anywhere;
+}
+.sheet-table thead th {
+  position: sticky; top: 0; z-index: 4; background: var(--brand-band);
+  border-bottom: 1px solid var(--brand-line);
+  white-space: normal; vertical-align: bottom;
+  font-size: .68rem; font-weight: 700; color: var(--brand-header-ink);
+  text-transform: uppercase; letter-spacing: .04em;
+}
+.sheet-table tfoot td {
+  position: sticky; bottom: 0; z-index: 5; background: var(--brand-band);
+  border-top: 1px solid var(--brand-line); border-bottom: 0;
+  font-size: .68rem; color: var(--brand-ink); font-weight: 700;
+}
+.tfoot-label { color: var(--brand-header-ink); letter-spacing: .04em; text-transform: uppercase; font-size: .62rem; }
+.tally { font-variant-numeric: tabular-nums; white-space: normal; }
+.tally-note { display: block; color: var(--muted); font-weight: 500; font-size: .64rem; margin-top: 2px; }
+
+.col-idx { position: sticky; left: 0; z-index: 3; width: 38px; min-width: 0; background: #fff; }
+.col-paper { position: sticky; left: 38px; z-index: 3; width: 15%; min-width: 0; max-width: none; background: #fff; }
+.sheet-table thead th.col-idx, .sheet-table thead th.col-paper { z-index: 8; background: var(--brand-band); }
+.sheet-table tfoot td.col-idx, .sheet-table tfoot td.col-paper { z-index: 9; background: var(--brand-band); }
+.sheet-table td.idx { text-align: right; color: var(--faint); font-variant-numeric: tabular-nums; }
+.sheet-table tbody tr.row:hover td { background: var(--brand-base); }
+.sheet-table tbody tr.row:hover td.col-idx, .sheet-table tbody tr.row:hover td.col-paper { background: var(--brand-base); }
+
+.paper-title {
+  display: -webkit-box; -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2; line-clamp: 2; overflow: hidden;
+  font-weight: 600; color: var(--brand-ink); overflow-wrap: anywhere; line-height: 1.25;
+  cursor: pointer;
+}
+.paper-title.expanded {
+  display: block; -webkit-line-clamp: unset; line-clamp: unset; overflow: visible;
+}
+.citation-key { display: block; font-size: .72rem; color: var(--muted); margin-top: 2px; }
+
+.sheet-table th.col-cell { min-width: 0; max-width: none; vertical-align: bottom; }
+.col-btn {
+  font: inherit; font-family: var(--mono); font-size: .64rem; font-weight: 700;
+  background: none; border: 0; cursor: pointer; color: var(--brand-header-ink);
+  padding: 2px 3px; border-radius: 6px; text-align: left; white-space: normal;
+  overflow-wrap: anywhere; line-height: 1.25; max-width: 100%;
+  /* Form controls do not inherit text-transform in Chrome, so the header's
+     uppercase has to be repeated here or the field names stay mixed case. */
+  text-transform: inherit;
+}
+.col-btn:hover { background: var(--brand-base); text-decoration: underline; }
+.col-btn:focus-visible { outline: 2px solid var(--brand-accent); outline-offset: 1px; }
+.col-btn[aria-expanded="true"] { background: var(--brand-base); }
+
+.sheet-table td.cell { max-width: 232px; overflow-wrap: anywhere; }
+.cell.na { color: var(--na); font-weight: 700; white-space: nowrap; }
+.cell.empty { color: var(--faint); }
+.cell.bool { white-space: nowrap; }
+.cell.flagged { background: rgba(217, 119, 6, .1); }
+.bmark { font-weight: 900; font-size: .95rem; line-height: 1; }
+.bmark.yes { color: var(--yes); }
+.bmark.no { color: var(--no); }
+.dash { color: var(--na); font-weight: 700; }
+.na { color: var(--na); font-weight: 700; }
+
+.chip {
+  display: inline-block; font-size: .66rem; font-weight: 700; line-height: 1.45;
+  background: var(--brand-tint); color: var(--brand-ink);
+  border: 1px solid transparent; border-radius: 999px; padding: 1px 6px;
+  white-space: nowrap; margin: 1px 3px 1px 0; vertical-align: middle;
+  max-width: 100%; overflow: hidden; text-overflow: ellipsis; cursor: pointer;
+}
+/* A clipped chip (or paper title) expands in place on click - column widths are
+   computed from the px needs measured in app.js, so this never widens a column
+   or introduces a horizontal scrollbar. */
+.chip.expanded {
+  white-space: normal; overflow: visible; text-overflow: clip;
+  overflow-wrap: anywhere; max-width: 100%;
+}
+.chip-more { background: var(--brand-tint); color: var(--brand-ink); border-color: var(--brand-edge); }
+
+/* G7 alignment chips — status colours, not brand colours.
+   Light tint + dark text keeps every label at >= 4.5:1. */
+.chip.align { border-radius: 999px; }
+.chip.align.aligned { background: #dcfce7; border-color: var(--yes); color: #15803d; }
+.chip.align.partial { background: #fef3c7; border-color: #b45309; color: #b45309; }
+.chip.align.exceeds { background: #fee2e2; border-color: var(--no); color: #b91c1c; }
+.chip.align.unclear { background: #f3f4f6; border-color: var(--na); color: #4b5563; }
+
+.txt-btn {
+  display: -webkit-box; -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2; line-clamp: 2;
+  font: inherit; text-align: left; color: inherit;
+  background: none; border: 0; padding: 0; cursor: pointer;
+  width: 100%; max-width: 100%; white-space: normal; overflow: hidden;
+  overflow-wrap: anywhere; vertical-align: bottom;
+}
+.txt-btn:hover { color: var(--brand-accent); }
+.txt-btn:focus-visible { outline: 2px solid var(--brand-accent); outline-offset: 1px; border-radius: 3px; }
+.txt-btn.open {
+  display: block; -webkit-line-clamp: unset; line-clamp: unset;
+  overflow: visible; max-width: 100%;
+}
+
+/* ------------------------------------------------------ G7 claim table --- */
+
+.claim-table { table-layout: fixed; width: 100%; min-width: 0; }
+.claim-table .col-idx { width: 38px; min-width: 0; }
+.claim-table .col-paper { width: 20%; min-width: 0; max-width: none; left: 38px; }
+.claim-table .col-value { width: 40%; }
+.claim-table td.value-cell { padding: 6px 8px; }
+
+.claim-row:hover > td { background: var(--brand-base); }
+
+.value-cell {
+  text-align: center; vertical-align: middle; white-space: nowrap;
+}
+.claim-table tfoot .value-cell { white-space: normal; text-align: center; line-height: 1.4; padding: 8px 6px; }
+
+.tally-row .tally-label { color: var(--brand-header-ink); letter-spacing: .04em; text-transform: uppercase; font-size: .62rem; }
+.tally-row .tally-text { color: var(--brand-ink); font-weight: 600; font-variant-numeric: tabular-nums; }
+
+/* ---------------------------------------------------- definition popover -- */
+
+.field-pop {
+  position: fixed; z-index: 90; width: min(460px, 92vw);
+  background: #fff; border: 1px solid var(--brand-line); border-radius: 12px;
+  box-shadow: 0 16px 36px rgba(15, 23, 42, .2); padding: 14px 16px; font-size: .8rem;
+}
+.field-pop[hidden] { display: none; }
+.field-pop.pinned { top: calc(var(--jumpbar-h, 122px) + 12px); right: 16px; left: auto !important; }
+.fp-head { display: flex; justify-content: space-between; gap: 10px; align-items: center; }
+.fp-head code { font-weight: 700; color: var(--brand-accent); }
+.fp-actions { display: flex; gap: 6px; flex: none; }
+.fp-pin, .fp-close {
+  font: inherit; font-size: .72rem; cursor: pointer;
+  border: 1px solid #D1D5DB; background: #fff; border-radius: 7px;
+  padding: 3px 9px; color: #374151;
+}
+.fp-pin:hover, .fp-close:hover { border-color: var(--brand-accent); color: var(--brand-accent); }
+.fp-pin[aria-pressed="true"] { background: var(--brand-solid); border-color: var(--brand-solid); color: #fff; }
+.fp-values { margin-top: 8px; color: var(--ink-soft); }
+.fp-def { margin-top: 6px; color: var(--muted); }
+.fp-gate { margin-top: 8px; font-size: .74rem; color: #b45309; background: #fef3c7; border: 1px solid #fde68a; border-radius: 8px; padding: 6px 8px; }
+
+.fatal { max-width: 720px; margin: 60px auto; padding: 20px 24px; border: 1px solid var(--rose); border-radius: 12px; background: #fef2f2; color: #b91c1c; font-size: .9rem; }
+
+/* ----------------------------------------------------------- responsive -- */
+
+@media (max-width: 760px) {
+  .wrap { padding: 0 14px 56px; }
+  .hero { padding: 40px 16px 34px; }
+  .jb-inner { padding: 8px 10px; }
+  .tablewrap { max-height: none; }
+  /* The jump bar can wrap onto several rows on narrow screens. */
+  html {
+    scroll-padding-top: max(calc(var(--jumpbar-h, 0px) + 16px), 196px);
+  }
+  .group-section, section[id] {
+    scroll-margin-top: max(calc(var(--jumpbar-h, 0px) + 16px), 196px);
+  }
+}
+
+@media print {
+  .jumpbar, .skip-link { display: none; }
+  .tablewrap { max-height: none; overflow: visible; }
+  .group-section { break-inside: avoid; }
+}
